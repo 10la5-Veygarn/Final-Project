@@ -1,8 +1,16 @@
 import datetime
 import pathlib
 import re
+from typing import ClassVar
 
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import (  # pyright: ignore[reportMissingImports]
+    Flask,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 path = pathlib.Path.home() / "Documents" / "Veyalitor"
 
@@ -12,16 +20,6 @@ try:
 except (PermissionError, OSError) as e:
     raise RuntimeError(f"Could not create document directory: {e}") from e
 
-
-# ---------------------------------------------------------------------------
-# Top-level functions.
-#
-# These hold the pure logic that doesn't need any Document state (no file
-# I/O, no `self`) and are what test_project.py tests directly. Document's
-# own methods below call these rather than duplicating the logic, so there
-# is one source of truth either way you use it: as a plain function, or
-# through the class.
-# ---------------------------------------------------------------------------
 
 def count_words(text):
     """Count the words in `text`. Hyphenated, apostrophe'd, and dotted
@@ -79,16 +77,10 @@ def validate_document_name(name):
 
     return name
 
-
-# ---------------------------------------------------------------------------
-# Document class — same design as before, now delegating to the functions
-# above instead of holding its own copies of that logic.
-# ---------------------------------------------------------------------------
-
 class Document:
 
     _default_location = path
-    _known_extensions = {"txt"}  # extend this set as new formats are added
+    _known_extensions: ClassVar[set[str]] = {"txt"}  # extend this set as new formats are added
 
     def __init__(self):
         largest_n = self._next_doc_number()
@@ -98,7 +90,7 @@ class Document:
         self.name = f"NewDoc{n}"
         self.content = ""
         self.word_count = 0
-        self._init_time = datetime.datetime.now()
+        self._init_time = datetime.datetime.now().astimezone()
         self.ext = "txt"
 
     @classmethod
@@ -295,9 +287,7 @@ class Document:
         name = file_path.stem
         ext = file_path.suffix.removeprefix(".")
 
-        # Validate before reading, so a bad filename fails fast with a
-        # clear error rather than loading content into a Document that
-        # can't later be saved or renamed under its own loaded name.
+
         validate_document_name(name)
 
         try:
@@ -360,11 +350,6 @@ class Document:
         )
 
 
-# ---------------------------------------------------------------------------
-# Flask app (previously app.py) — routes are unchanged, just living
-# alongside Document in the same file now.
-# ---------------------------------------------------------------------------
-
 app = Flask(__name__)
 app.secret_key = "dev"  # fine for local single-user use; not for production
 
@@ -391,8 +376,6 @@ def edit(filename):
     is_new = request.args.get("is_new") == "1"
 
     if is_new:
-        # A brand-new document that hasn't been saved to disk yet.
-        # Reconstruct it in memory rather than requiring a file to exist.
         name, _, ext = filename.rpartition(".")
         doc = Document()
         doc.name = name
@@ -482,11 +465,6 @@ def rename(filename):
 
     return redirect(url_for("edit", filename=f"{doc.name}.{doc.ext}"))
 
-
-# ---------------------------------------------------------------------------
-# main() — the required entry point. Running `python project.py` starts
-# the Flask development server.
-# ---------------------------------------------------------------------------
 
 def main():
     app.run(debug=True)
