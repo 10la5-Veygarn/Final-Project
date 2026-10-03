@@ -1,9 +1,8 @@
+import datetime
 import pathlib
 import re
-import datetime
 
-from flask import Flask, render_template, request, redirect, url_for, flash
-
+from flask import Flask, flash, redirect, render_template, request, url_for
 
 path = pathlib.Path.home() / "Documents" / "Veyalitor"
 
