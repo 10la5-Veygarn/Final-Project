@@ -1,11 +1,7 @@
 import pytest
 
-from project import count_words, calculate_reading_time, validate_document_name
+from project import calculate_reading_time, count_words, validate_document_name
 
-
-# ---------------------------------------------------------------------------
-# count_words
-# ---------------------------------------------------------------------------
 
 def test_count_words():
     assert count_words("") == 0
@@ -26,11 +22,6 @@ def test_count_words():
 
     with pytest.raises(TypeError):
         count_words(None)
-
-
-# ---------------------------------------------------------------------------
-# calculate_reading_time
-# ---------------------------------------------------------------------------
 
 def test_calculate_reading_time():
     assert calculate_reading_time(0) == 0.0
@@ -54,9 +45,6 @@ def test_calculate_reading_time():
         calculate_reading_time(100, words_per_minute="fast")
 
 
-# ---------------------------------------------------------------------------
-# validate_document_name
-# ---------------------------------------------------------------------------
 
 def test_validate_document_name():
     assert validate_document_name("NewDoc1") == "NewDoc1"
