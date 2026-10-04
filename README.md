@@ -38,7 +38,7 @@ The `Document` class is the document model and handles all filesystem operations
 - `list_documents()` — lists all supported documents in the default directory
 - `word_counter()`, `reading_time()`, `exists()`, and a few other smaller helpers
 
-`project.py` needs nothing beyond Flask and the standard library — `pathlib`, `re`, and `datetime` are the only other imports. It does need OS-level permissions to create its storage directory and read/write files there. Error handling is exception-based throughout: filesystem and validation errors are raised from `Document`'s methods and caught in the Flask routes, where they're shown to the user as a flash message before falling back to a safe redirect.
+`project.py` needs nothing beyond Flask and the standard library — `pathlib`, `re`, `datetime`, and `typing` are the only other imports. It does need OS-level permissions to create its storage directory and read/write files there. Error handling is exception-based throughout: filesystem and validation errors are raised from `Document`'s methods and caught in the Flask routes, where they're shown to the user as a flash message before falling back to a safe redirect.
 
 ### Flask routes
 
@@ -69,7 +69,7 @@ The `templates/` and `static/` directories hold the HTML, CSS, and JavaScript. T
 ```bash
 git clone https://github.com/10la5-Veygarn/inanis.git
 cd inanis
-python3 -m pip install flask
+python3 -m pip install -r requirements.txt
 python3 project.py
 ```
 
@@ -78,7 +78,7 @@ python3 project.py
 ```powershell
 git clone https://github.com/10la5-Veygarn/inanis.git
 cd inanis
-python -m pip install flask
+python -m pip install -r requirements.txt
 python project.py
 ```
 
