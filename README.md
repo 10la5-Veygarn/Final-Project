@@ -2,7 +2,8 @@
 
 A small Flask-based document editor.
 
-While brainstorming ideas for the CS50P final project, I thought of many different projects, but I ultimately decided to build this simple editor both to convince myself to write something (code and otherwise) and as a simple project which I can build upon. I have some experience with Flask, so I decided to make it web-based first. I might update it to use a more modern front-end framework in the future, but that depends on how lazy I feel.
+While brainstorming ideas for the CS50P final project, I thought of many different projects, but I ultimately decided to build this simple editor both to convince myself to write something (code and otherwise) and as a simple project which I can build upon. I have some experience with Flask, so I decided to make it web-based first. I might update it to use a more modern front-end framework in the future, but that depends on how lazy I feel. This is the combined version for CS50P's final project. The original version can be found here: [Inanis](https://github.com/10la5-Veygarn/inanis "Inanis")
+#### Video Demo: https://www.youtube.com/watch?v=Wx4ieXttjdU
 
 ## Features
 
@@ -52,7 +53,7 @@ The Flask routes serve the web interface and call straight into `Document` for a
 
 Most error handling lives here, since the routes catch whatever `Document` raises and turn it into a flash message the user actually sees. Every route redirects afterward — either to the home page or back to the document's edit page. There's a Flask secret key set for session/flash support, which is fine for local, single-user use but isn't meant to be secure; this app isn't intended to be exposed on a network.
 
-The `templates/` and `static/` directories hold the HTML, CSS, and JavaScript. They're kept deliberately simple, since the interesting part of this project for a Python course is `project.py`, not the front end.
+The `templates/` and `static/` directories hold the HTML, CSS, and JavaScript. They're simple, since the interesting part of this project is `project.py`, not the front end.
 
 ## Prerequisites
 
